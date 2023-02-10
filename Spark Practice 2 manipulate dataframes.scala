@@ -1,5 +1,6 @@
 // -----------------------------------------------------------------
-// Importer un fichier csv dans spark
+// Importer un fichier csv dans spark, utiliser sql pour 
+// filtrer et visualiser les données
 // -----------------------------------------------------------------
 %scala
 
@@ -31,3 +32,33 @@ select * from employee
 %sql
 
 select count(State), State from employee group by State order by count(State) desc
+
+
+// -----------------------------------------------------------------
+// Utiliser Spark SQL pour analyser les df
+// -----------------------------------------------------------------
+// importer le csv
+val ItemDataframe = sqlContext.read.format("csv")
+                            .option("header", "true")
+                            .option("inferSchema", "true")
+                            .load("/FileStore/tables/Item.csv")
+
+// specifier les colonnes à importer
+ItemDataframe.select("ItemName", "Price")
+
+// filtrer les prix > 10
+ItemDataframe.filter("Price" > 10)
+
+// créer un TempView
+ItemDataframe.createOrReplaceTempView("ItemDataframe")
+
+// utiliser spark.sql pour selectionner les données
+ItemDataframe = spark.sql('select * from ItemDataframe')
+
+// aficher l'histograme avec sql : notebnook
+%sql
+select * from ItemDataframe
+
+// -----------------------------------------------------------------
+// Pratique - utilisation de l'API dataframe
+// -----------------------------------------------------------------
