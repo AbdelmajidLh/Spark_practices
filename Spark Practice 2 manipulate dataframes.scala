@@ -60,5 +60,34 @@ ItemDataframe = spark.sql('select * from ItemDataframe')
 select * from ItemDataframe
 
 // -----------------------------------------------------------------
-// Pratique - utilisation de l'API dataframe
+// Data exploration - utilisation de l'API Spark DataFrames
 // -----------------------------------------------------------------
+// importer le dataframe en utilisant un schema explicite : 
+// spécifier chaque schema individuellement dans le code (vs inferschema)
+%scala
+
+// importer la librairie Encoders
+import org.apache.spark.sql.Encoders;
+
+// creer une case class : railway et specifier les types de colonnes
+case class railway(DayofMonth:Int, DayofWeek:Int, State:String, OriginStationID:Double, DestStationID:Int, DepDelay:Int, ArrDelay:Int)
+
+// créer le schema
+val railwaySchema = Encoders.product[railway].schema
+
+// créer un dataframe
+val railwayDF = spark.read.schema(railwaySchema).option("header", "true")
+                                                .csv("/FileStore/tables/railway.csv")
+// afficher le df importé : 10 lignes
+railwayDF.show(10)
+
+// afficher le schema
+railwayDF.printSchema()
+
+
+// [not run] importer le fichier en inferant le schema : pas bon en production : si les données changent
+// val railwayDF = spark.read.option("inferSchema", "true")
+                          .option("header", "true")
+                          .csv("/FileStore/tables/railway.csv")
+
+
