@@ -1,53 +1,44 @@
-// Databricks notebook source
-// DBTITLE 1,Importer un fichier RDD
-// MAGIC %scala
-// MAGIC 
-// MAGIC // importer le fichier csv : data_geo.csv
-// MAGIC val rdd = sc.textFile("/databricks-datasets/samples/population-vs-price/data_geo.csv")
+// ############################################################
+// Les bases de Spark - scala
+// ############################################################
+// Ce fichier a été testé sous Notebook Databricks avec scala V2.
 
-// COMMAND ----------
+// -----------------------------------------------------------------
+// Importer un fichier RDD
+// -----------------------------------------------------------------
 
-// MAGIC %sh
-// MAGIC 
-// MAGIC // lister les elements du dossier /databricks/driver/
-// MAGIC ls -ltr /databricks/driver/
 
-// COMMAND ----------
+// %scala
+//      importer le fichier csv : data_geo.csv
+val rdd = sc.textFile("/databricks-datasets/samples/population-vs-price/data_geo.csv")
 
-// DBTITLE 1,Afficher le contenu du fichier RDD
-// MAGIC %scala
-// MAGIC 
-// MAGIC rdd.collect().foreach(println)
+// %sh
+// lister les elements du dossier /databricks/driver/
+ls -ltr /databricks/driver/
 
-// COMMAND ----------
+// Afficher le contenu du fichier RDD
+// %scala
+rdd.collect().foreach(println)
 
-// DBTITLE 1,Parallelized Collections RDD
-// MAGIC %scala
-// MAGIC 
-// MAGIC // créer un fichier distribué
-// MAGIC val data = Array(1, 2, 3, 4, 5)
-// MAGIC val distData = sc.parallelize(data)
+// Parallelized Collections RDD
+// %scala
+// créer un fichier distribué
+val data = Array(1, 2, 3, 4, 5)
+val distData = sc.parallelize(data)
 
-// COMMAND ----------
 
-// DBTITLE 1,Afficher les collections RDD parallélisées
-// MAGIC %scala
-// MAGIC 
-// MAGIC // collec() est une fonction qui va collecter les données de différents noeuds.
-// MAGIC distData.collect().foreach(println)
+// Afficher les collections RDD parallélisées
+// %scala
+// collec() est une fonction qui va collecter les données de différents noeuds.
+distData.collect().foreach(println)
 
-// COMMAND ----------
+// %md
+// **Attention** : si le fichier est tros volumineux (ex. TB), la fonction collecte() peut renvoyer un message d'erreur "outOfMemory".
 
-// MAGIC %md
-// MAGIC **Attention** : si le fichier est tros volumineux (ex. TB), la fonction collecte() peut renvoyer un message d'erreur "outOfMemory".
+// External Datasets RDD
+// %scala
+// importer le fichier 'employee.txt' dans Databricks puis dans Spark
+val distFile = sc.textFile("/FileStore/tables/employee.txt")
 
-// COMMAND ----------
-
-// DBTITLE 1,External Datasets RDD
-// MAGIC %scala
-// MAGIC 
-// MAGIC // importer le fichier 'employee.txt' dans Databricks puis dans Spark
-// MAGIC val distFile = sc.textFile("/FileStore/tables/employee.txt")
-// MAGIC 
-// MAGIC // afficher le dataset (rdd)
-// MAGIC distFile.collect().foreach(println)
+// afficher le dataset (rdd)
+distFile.collect().foreach(println)
