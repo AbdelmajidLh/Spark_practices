@@ -87,7 +87,22 @@ railwayDF.printSchema()
 
 // [not run] importer le fichier en inferant le schema : pas bon en production : si les données changent
 // val railwayDF = spark.read.option("inferSchema", "true")
-                          .option("header", "true")
-                          .csv("/FileStore/tables/railway.csv")
+//                          .option("header", "true")
+//                          .csv("/FileStore/tables/railway.csv")
 
+
+// Utiliser les méthodes de DataFrame dans spark
+// selectionner la colonne State
+val states = railwayDF.select("State")
+states.show(15)
+
+// compter les lignes dans le df
+railwayDF.count()
+
+// summary statistics du df : la fonction retourne un df. Utiliser show pour l'afficher
+railwayDF.describe().show()
+
+// -----------------------------------------------------------------
+// utilisation de Spark SQL
+// -----------------------------------------------------------------
 
