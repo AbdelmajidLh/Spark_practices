@@ -2,7 +2,7 @@
 ## Contexte
 
 
-Dans ce dépôt, j'ai mis des exemples pratiques des commandes Apache Spark avec Scala. Le but est de vous montrer comment créer, importer et manipuler des fichiers rdd et datasets avec scala dans un environnement Spark (Databricks).
+Dans ce dépôt, j'ai mis des exemples pratiques des commandes Apache Spark avec Scala. Le but est de vous montrer comment créer, importer et manipuler des fichiers rdd et datasets avec scala dans un environnement Spark ([Databricks](https://community.cloud.databricks.com/)).
 
 Les fichiers avec extention `/databricks_files/*.dbc` sont des fichiers databricks que vous pouvez réutiliser, sinon, vous pouvez utiliser les fichier ``.scala`` diréctement.
 
